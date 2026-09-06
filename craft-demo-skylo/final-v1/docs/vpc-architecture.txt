@@ -1,0 +1,138 @@
+================================================================================
+SKYLO REGIONAL HUB — VPC ARCHITECTURE (us-west-2)
+================================================================================
+
+                                 INTERNET
+                                    |
+                                    | (0/0)
+                              +-----v-----+
+                              |    IGW    |
+                              +-----^-----+
+                                    |
+        __________________________ NLB (Public Surface) __________________________
+       |                                                                          |
+       |                                                                          |
+   +---v---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+--+
+   |                         PUBLIC TIER (NAT + NLB)                              |
+   | 10.100.0.0/24  |  10.100.1.0/24  |  10.100.2.0/24                          |
+   | (us-west-2a)   |  (us-west-2b)   |  (us-west-2c)                           |
+   |   NAT-a        |    NAT-b        |    NAT-c                                 |
+   |    NLB         |    (standby)    |    (standby)                             |
+   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+       |               |               |
+       | (0/0)         | (0/0)         | (0/0)
+       v               v               v
+   +---+------+   +---+------+   +---+------+
+   |   RT     |   |   RT     |   |   RT     |
+   | Public   |   | Public   |   | Public   |
+   |(shared)  |   |(shared)  |   |(shared)  |
+   +---^------+   +---^------+   +---^------+
+       |               |               |
+       |               |               |
+   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+   |                        PRIVATE TIER (EKS + TGW)                              |
+   | 10.100.10.0/24 | 10.100.20.0/24 | 10.100.30.0/24                           |
+   | (us-west-2a)   | (us-west-2b)   | (us-west-2c)                             |
+   |  EKS nodes     |  EKS nodes     |  EKS nodes                                |
+   |  Pods (100.64) |  Pods (100.64) |  Pods (100.64)                           |
+   |  TGW attach    |  TGW attach    |  TGW attach                              |
+   +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+       |               |               |
+       | RT Private-a  | RT Private-b  | RT Private-c
+       | 0/0→NAT-a     | 0/0→NAT-b     | 0/0→NAT-c
+       | 10.200→TGW    | 10.200→TGW    | 10.200→TGW
+       | 172.16→TGW    | 172.16→TGW    | 172.16→TGW
+       |               |               |
+       v               v               v
+       |<----- TGW Attachment (hub VPC) ---->|
+       |                                     |
+       +-----------+           +-----------+
+                   | (TGW)    |
+                   v          v
+            +------v------+------v------+
+            |  TGW Route  |  TGW Route  |
+            |  Table:     |  Table:     |
+            |  Ground     |  Org        |
+            |  (DX only)  |  (East-West)|
+            +------^------+------^------+
+                   |            |
+                   v            v
+         +-----+-------+   +--------+-------+
+         | DX Circuit |   | VPN Backup     |
+         | (Primary)  |   | (Cold standby) |
+         +-----^-------+   +----^----------+
+               |                |
+               |                |
+        ┌──────v────────────────v──────────┐
+        │   Ground Station Network         │
+        │   (on-prem satellite gateway)    │
+        │   10.200.0.0/16                  │
+        └─────────────────────────────────┘
+
+        ┌───────────────────────────────┐
+        │  Skylo Org Accounts           │
+        │  172.16.0.0/12                │
+        │  (east-west, zero-trust       │
+        │   TGW route table isolation)  │
+        └─────────────────────────────────┘
+
+================================================================================
+KEY DESIGN POINTS
+================================================================================
+
+1. THREE-TIER ARCHITECTURE
+   - Public: NAT (egress) + NLB (ingress, only public surface)
+   - Private: EKS nodes, pods (100.64.0.0/16 secondary CIDR), TGW attach
+   - Tier separation enforces blast radius (public cannot reach ground/org)
+
+2. PER-AZ ROUTE TABLES (PRIVATE TIER)
+   - Why? Each AZ's private subnets point to its own NAT (not shared cross-AZ)
+   - Avoids single-AZ failure: if AZ-a fails, AZ-b and AZ-c keep their own NATs
+   - Trade-off: 3 route tables instead of 1; worth it for resilience
+
+3. CIDR STRATEGY (Collision Prevention by Construction)
+   - Hub VPCs:      10.0.0.0/9      (hub#1=10.100, hub#2=10.101, etc.)
+   - Ground:        10.128.0.0/9    (hub#1=10.200, hub#2=10.201, etc.)
+   - Org/shared:    172.16.0.0/12   (DIFFERENT RFC1918 block, impossible collision)
+   - Pods:          100.64.0.0/16   (RFC 6598, cluster-local, no TGW routing)
+
+4. TGW ATTACHMENT (Segmentation)
+   - Two separate TGW route tables: Ground (DX) ≠ Org (east-west)
+   - Hub VPC sends both routes toward TGW, but TGW decides which traffic goes where
+   - No flat routing table = no accidental cross-segment traffic
+
+5. DATA FLOW EXAMPLE
+   a) Device sends session-setup packet over satellite → Ground station (10.200.0.0/16)
+   b) Ground station sends over DX → AWS DX endpoint → TGW
+   c) TGW matches route 10.200.0.0/16 in Ground route table
+   d) TGW forwards to hub VPC (TGW attachment)
+   e) Hub VPC: private subnet receives packet from TGW attachment ENI
+   f) Data-ingress pod (10.100.15.x / 100.64.x.x) parses packet
+   g) Core-network pod (10.100.15.y / 100.64.x.y) queries Redis, decides routing
+   h) UPF pod forwards to NLB (100.64.x.z)
+   i) NLB sends response to customer via IGW
+
+6. SECURITY BY DESIGN
+   - Single public surface: NLB only (on sg-nlb-public SG)
+   - EKS nodes: private IPs only, no internet-facing (on sg-eks-private SG)
+   - Ground/org traffic: isolated at TGW layer, not mixed in one route table
+   - No pod-to-internet: all egress via NAT (controlled, monitorable)
+
+7. SCALABILITY
+   - Pod CIDR (100.64.0.0/16) is secondary, not competing with node IPs
+   - Each AZ private subnet is /24 (251 usable IPs) — headroom for 100 nodes + buffer
+   - Karpenter scales nodes; HPA scales pods; independent scaling on two address spaces
+   - As Skylo adds more hubs, CIDR strategy remains collision-free (structural guarantee)
+
+================================================================================
+OUTPUTS (for other modules)
+================================================================================
+
+vpc_id                → Security groups module
+private_subnet_ids    → EKS cluster module
+public_subnet_ids     → NLB module (future)
+pod_secondary_cidr    → VPC CNI custom networking config
+nat_gateway_ids       → Monitoring/alerting
+tgw_attachment_id     → Compliance/audit
+
+================================================================================
