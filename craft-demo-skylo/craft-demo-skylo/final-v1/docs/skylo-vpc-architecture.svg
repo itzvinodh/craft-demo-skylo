@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1820 1500" width="1820" height="1500" role="img" aria-label="Skylo Regional Hub VPC architecture in us-west-2: internet traffic enters through an IGW and NLB into a three-AZ public tier (NAT plus NLB), routes into a three-AZ private tier running EKS with per-AZ route tables, attaches to a Transit Gateway that splits Ground (DX) and Org (east-west) traffic, and reaches the on-prem Ground Station network or Skylo Org accounts.">
+<rect x="0" y="0" width="1820" height="1500" fill="#f8fafc"/>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+</marker>
+<marker id="arrowP" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/>
+</marker>
+</defs>
+<text x="910" y="34" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:19px; font-weight:800; fill:#0f172a;">SKYLO REGIONAL HUB — VPC ARCHITECTURE (us-west-2)</text>
+<text x="910" y="54" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:400; fill:#475569;">Three-tier hub VPC: public ingress/egress → private EKS compute → Transit Gateway segmentation → on-prem ground network + org accounts</text>
+<text x="680.0" y="92" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:14px; font-weight:700; fill:#475569;">INTERNET</text>
+<rect x="610.0" y="102" width="140" height="42" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+<text x="680.0" y="128" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:14px; font-weight:700; fill:#0f172a;">IGW</text>
+<line x1="680.0" y1="98" x2="680.0" y2="102" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)"/>
+<line x1="680.0" y1="144" x2="680.0" y2="178" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="639.0" y="152.0" width="82" height="15" fill="#ffffff" opacity="0.92"/>
+<text x="680.0" y="163.0" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:600; fill:#475569;">0.0.0.0/0</text>
+<rect x="60" y="178" width="1240" height="40" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+<text x="680.0" y="202" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:700; fill:#0f172a;">NLB — PUBLIC SURFACE  (single internet-facing entry point)</text>
+<text x="680.0" y="230" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:13.5px; font-weight:700; fill:#b45309;">PUBLIC TIER  (NAT + NLB)</text>
+<rect x="60" y="240" width="380" height="200" rx="8" fill="#fffbeb" stroke="#b45309" stroke-width="1.8"/>
+<rect x="60" y="240" width="380" height="26" rx="8" fill="#b45309" stroke="#b45309" stroke-width="0"/>
+<rect x="60" y="253" width="380" height="13" fill="#b45309"/>
+<text x="250.0" y="258" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2a</text>
+<text x="250.0" y="290" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">subnet 10.100.0.0/24</text>
+<text x="250.0" y="310" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">NAT-a  (ACTIVE)</text>
+<text x="250.0" y="330" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">NLB  (ACTIVE)</text>
+<line x1="250.0" y1="218" x2="250.0" y2="240" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="460" y="240" width="380" height="200" rx="8" fill="#fffbeb" stroke="#b45309" stroke-width="1.8"/>
+<rect x="460" y="240" width="380" height="26" rx="8" fill="#b45309" stroke="#b45309" stroke-width="0"/>
+<rect x="460" y="253" width="380" height="13" fill="#b45309"/>
+<text x="650.0" y="258" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2b</text>
+<text x="650.0" y="290" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">subnet 10.100.1.0/24</text>
+<text x="650.0" y="310" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">NAT-b  (standby)</text>
+<text x="650.0" y="330" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">— standby path —</text>
+<line x1="650.0" y1="218" x2="650.0" y2="240" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="860" y="240" width="380" height="200" rx="8" fill="#fffbeb" stroke="#b45309" stroke-width="1.8"/>
+<rect x="860" y="240" width="380" height="26" rx="8" fill="#b45309" stroke="#b45309" stroke-width="0"/>
+<rect x="860" y="253" width="380" height="13" fill="#b45309"/>
+<text x="1050.0" y="258" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2c</text>
+<text x="1050.0" y="290" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">subnet 10.100.2.0/24</text>
+<text x="1050.0" y="310" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">NAT-c  (standby)</text>
+<text x="1050.0" y="330" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:400; fill:#0f172a;">— standby path —</text>
+<line x1="1050.0" y1="218" x2="1050.0" y2="240" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="60" y="470" width="380" height="60" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="1.6"/>
+<text x="250.0" y="492" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">RT-Public (shared)</text>
+<text x="250.0" y="508" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">0.0.0.0/0 → IGW</text>
+<line x1="250.0" y1="440" x2="250.0" y2="470" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="460" y="470" width="380" height="60" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="1.6"/>
+<text x="650.0" y="492" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">RT-Public (shared)</text>
+<text x="650.0" y="508" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">0.0.0.0/0 → IGW</text>
+<line x1="650.0" y1="440" x2="650.0" y2="470" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="860" y="470" width="380" height="60" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="1.6"/>
+<text x="1050.0" y="492" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">RT-Public (shared)</text>
+<text x="1050.0" y="508" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11.5px; font-weight:400; fill:#334155;">0.0.0.0/0 → IGW</text>
+<line x1="1050.0" y1="440" x2="1050.0" y2="470" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="680.0" y="560" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:13.5px; font-weight:700; fill:#1d4ed8;">PRIVATE TIER  (EKS + TGW attachment)</text>
+<rect x="60" y="570" width="380" height="210" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+<rect x="60" y="570" width="380" height="26" rx="8" fill="#1d4ed8" stroke="#1d4ed8" stroke-width="0"/>
+<rect x="60" y="583" width="380" height="13" fill="#1d4ed8"/>
+<text x="250.0" y="588" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2a</text>
+<text x="250.0" y="620" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">subnet 10.100.10.0/24</text>
+<text x="250.0" y="639" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">EKS worker nodes</text>
+<text x="250.0" y="658" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">Pods — 100.64.0.0/16</text>
+<text x="250.0" y="677" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">(secondary CIDR, RFC 6598)</text>
+<text x="250.0" y="696" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">TGW attachment ENI</text>
+<line x1="250.0" y1="530" x2="250.0" y2="570" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="460" y="570" width="380" height="210" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+<rect x="460" y="570" width="380" height="26" rx="8" fill="#1d4ed8" stroke="#1d4ed8" stroke-width="0"/>
+<rect x="460" y="583" width="380" height="13" fill="#1d4ed8"/>
+<text x="650.0" y="588" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2b</text>
+<text x="650.0" y="620" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">subnet 10.100.20.0/24</text>
+<text x="650.0" y="639" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">EKS worker nodes</text>
+<text x="650.0" y="658" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">Pods — 100.64.0.0/16</text>
+<text x="650.0" y="677" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">(secondary CIDR, RFC 6598)</text>
+<text x="650.0" y="696" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">TGW attachment ENI</text>
+<line x1="650.0" y1="530" x2="650.0" y2="570" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="860" y="570" width="380" height="210" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.8"/>
+<rect x="860" y="570" width="380" height="26" rx="8" fill="#1d4ed8" stroke="#1d4ed8" stroke-width="0"/>
+<rect x="860" y="583" width="380" height="13" fill="#1d4ed8"/>
+<text x="1050.0" y="588" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:13.5px; font-weight:700; fill:#ffffff;">AZ us-west-2c</text>
+<text x="1050.0" y="620" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">subnet 10.100.30.0/24</text>
+<text x="1050.0" y="639" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">EKS worker nodes</text>
+<text x="1050.0" y="658" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">Pods — 100.64.0.0/16</text>
+<text x="1050.0" y="677" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">(secondary CIDR, RFC 6598)</text>
+<text x="1050.0" y="696" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:400; fill:#0f172a;">TGW attachment ENI</text>
+<line x1="1050.0" y1="530" x2="1050.0" y2="570" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="60" y="810" width="380" height="90" rx="8" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+<text x="250.0" y="828" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">RT-Private-a</text>
+<text x="250.0" y="844" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">0.0.0.0/0 → NAT-a</text>
+<text x="250.0" y="860" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">10.200.0.0/16 → TGW</text>
+<text x="250.0" y="876" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">172.16.0.0/12 → TGW</text>
+<line x1="250.0" y1="780" x2="250.0" y2="810" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="460" y="810" width="380" height="90" rx="8" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+<text x="650.0" y="828" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">RT-Private-b</text>
+<text x="650.0" y="844" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">0.0.0.0/0 → NAT-b</text>
+<text x="650.0" y="860" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">10.200.0.0/16 → TGW</text>
+<text x="650.0" y="876" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">172.16.0.0/12 → TGW</text>
+<line x1="650.0" y1="780" x2="650.0" y2="810" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="860" y="810" width="380" height="90" rx="8" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.6"/>
+<text x="1050.0" y="828" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">RT-Private-c</text>
+<text x="1050.0" y="844" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">0.0.0.0/0 → NAT-c</text>
+<text x="1050.0" y="860" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">10.200.0.0/16 → TGW</text>
+<text x="1050.0" y="876" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:11px; font-weight:600; fill:#1e3a8a;">172.16.0.0/12 → TGW</text>
+<line x1="1050.0" y1="780" x2="1050.0" y2="810" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="520.0" y="955" width="320" height="60" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="2"/>
+<polyline points="250.0,900 250.0,927 560.0,954" fill="none" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+<polyline points="650.0,900 650.0,927 680.0,954" fill="none" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+<polyline points="1050.0,900 1050.0,927 800.0,954" fill="none" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+<text x="680.0" y="981" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:14px; font-weight:800; fill:#6d28d9;">TRANSIT GATEWAY</text>
+<text x="680.0" y="999" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#4c1d95;">(hub VPC attachment)</text>
+<line x1="610.0" y1="1015" x2="340.0" y2="1060" stroke="#6d28d9" stroke-width="1.8" marker-end="url(#arrowP)"/>
+<line x1="750.0" y1="1015" x2="850.0" y2="1060" stroke="#6d28d9" stroke-width="1.8" marker-end="url(#arrowP)"/>
+<rect x="60" y="1060" width="560" height="68" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.8"/>
+<rect x="60" y="1060" width="560" height="26" rx="8" fill="#6d28d9" stroke="#6d28d9" stroke-width="0"/>
+<rect x="60" y="1073" width="560" height="13" fill="#6d28d9"/>
+<text x="340.0" y="1078" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:700; fill:#ffffff;">TGW ROUTE TABLE — GROUND  (DX only)</text>
+<text x="340.0" y="1108" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#4c1d95;">matches 10.200.0.0/16 → forwards toward on-prem</text>
+<rect x="660" y="1060" width="380" height="68" rx="8" fill="#f5f3ff" stroke="#6d28d9" stroke-width="1.8"/>
+<rect x="660" y="1060" width="380" height="26" rx="8" fill="#6d28d9" stroke="#6d28d9" stroke-width="0"/>
+<rect x="660" y="1073" width="380" height="13" fill="#6d28d9"/>
+<text x="850.0" y="1078" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:700; fill:#ffffff;">TGW ROUTE TABLE — ORG  (east-west)</text>
+<text x="850.0" y="1108" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#4c1d95;">matches 172.16.0.0/12 → forwards to org accounts</text>
+<line x1="216.8" y1="1128" x2="192.5" y2="1183" stroke="#047857" stroke-width="1.8" marker-end="url(#arrow)"/>
+<line x1="463.2" y1="1128" x2="487.5" y2="1183" stroke="#047857" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+<rect x="60" y="1183" width="265.0" height="62" rx="8" fill="#ecfdf5" stroke="#047857" stroke-width="1.6"/>
+<text x="192.5" y="1209" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#047857;">DX Circuit</text>
+<text x="192.5" y="1227" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#047857;">PRIMARY — always-on</text>
+<rect x="355.0" y="1183" width="265.0" height="62" rx="8" fill="#f8fafc" stroke="#047857" stroke-width="1.6" stroke-dasharray="6,4"/>
+<text x="487.5" y="1209" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#047857;">VPN Backup</text>
+<text x="487.5" y="1227" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#047857;">COLD STANDBY — failover only</text>
+<line x1="850.0" y1="1128" x2="850.0" y2="1214.0" stroke="#0e7490" stroke-width="1.8" marker-end="url(#arrow)"/>
+<polyline points="192.5,1245 192.5,1272 340.0,1290" fill="none" stroke="#047857" stroke-width="1.8"/>
+<polyline points="487.5,1245 487.5,1272 340.0,1290" fill="none" stroke="#047857" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="60" y="1290" width="560" height="100" rx="8" fill="#ecfdf5" stroke="#047857" stroke-width="2"/>
+<text x="340.0" y="1320" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:700; fill:#047857;">GROUND STATION NETWORK</text>
+<text x="340.0" y="1339" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:700; fill:#047857;">on-prem satellite gateway</text>
+<text x="340.0" y="1358" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12.5px; font-weight:700; fill:#047857;">10.200.0.0/16</text>
+<rect x="660" y="1290" width="380" height="100" rx="8" fill="#ecfeff" stroke="#0e7490" stroke-width="2"/>
+<text x="850.0" y="1318" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#0e7490;">SKYLO ORG ACCOUNTS</text>
+<text x="850.0" y="1336" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#0e7490;">172.16.0.0/12</text>
+<text x="850.0" y="1354" text-anchor="middle" style="font-family:ui-monospace, 'SF Mono', Consolas, monospace; font-size:12px; font-weight:700; fill:#0e7490;">zero-trust, isolated route table</text>
+<rect x="1345" y="70" width="435" height="1330" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+<text x="1562.5" y="92" text-anchor="middle" style="font-family:ui-sans-serif, system-ui; font-size:14.5px; font-weight:800; fill:#0f172a;">KEY DESIGN POINTS</text>
+<text x="1363" y="124" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#b45309;">1. THREE-TIER SEPARATION</text>
+<text x="1363" y="142" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Public: NAT (egress) + NLB (ingress) — the</text>
+<text x="1363" y="158" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  only internet-facing surface.</text>
+<text x="1363" y="174" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Private: EKS nodes + pods, no public IPs.</text>
+<text x="1363" y="190" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Blast radius: public tier can never reach</text>
+<text x="1363" y="206" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  ground or org networks directly.</text>
+<text x="1363" y="232" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#1d4ed8;">2. PER-AZ PRIVATE ROUTE TABLES</text>
+<text x="1363" y="250" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Each AZ's private subnet points to its own</text>
+<text x="1363" y="266" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  NAT gateway (not a shared cross-AZ NAT).</text>
+<text x="1363" y="282" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">If AZ-a fails, AZ-b / AZ-c keep independent</text>
+<text x="1363" y="298" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  egress — costs 3 route tables, buys</text>
+<text x="1363" y="314" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  resilience against single-AZ failure.</text>
+<text x="1363" y="340" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#6d28d9;">3. CIDR STRATEGY (collision-proof)</text>
+<text x="1363" y="358" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Hub VPCs — 10.0.0.0/9   (hub#1 = 10.100.x)</text>
+<text x="1363" y="374" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Ground    — 10.128.0.0/9 (hub#1 = 10.200.x)</text>
+<text x="1363" y="390" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Org/shared— 172.16.0.0/12 (different RFC1918</text>
+<text x="1363" y="406" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">              block — impossible to collide)</text>
+<text x="1363" y="422" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Pods      — 100.64.0.0/16 (RFC 6598,</text>
+<text x="1363" y="438" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">              cluster-local, never routed via TGW)</text>
+<text x="1363" y="464" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#6d28d9;">4. TGW SEGMENTATION</text>
+<text x="1363" y="482" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Two separate TGW route tables: Ground (DX)</text>
+<text x="1363" y="498" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  vs. Org (east-west) — never merged.</text>
+<text x="1363" y="514" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Hub VPC advertises both routes; the TGW</text>
+<text x="1363" y="530" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  decides which table each packet hits.</text>
+<text x="1363" y="546" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Result: no accidental cross-segment traffic.</text>
+<text x="1363" y="572" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#047857;">5. SECURITY BY DESIGN</text>
+<text x="1363" y="590" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Single public surface: NLB only (sg-nlb-public).</text>
+<text x="1363" y="606" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">EKS nodes: private-only (sg-eks-private),</text>
+<text x="1363" y="622" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  never internet-facing.</text>
+<text x="1363" y="638" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Ground vs. org traffic isolated at the TGW</text>
+<text x="1363" y="654" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  layer — not mixed in one route table.</text>
+<text x="1363" y="670" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">No pod reaches the internet directly — all</text>
+<text x="1363" y="686" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  egress is via NAT (controlled, monitorable).</text>
+<text x="1363" y="712" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#0e7490;">6. SCALABILITY</text>
+<text x="1363" y="730" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Pod CIDR (100.64.0.0/16) is secondary — does</text>
+<text x="1363" y="746" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  not compete with node IP space.</text>
+<text x="1363" y="762" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Each private /24 = 251 usable IPs, headroom</text>
+<text x="1363" y="778" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  for ~100 nodes + buffer per AZ.</text>
+<text x="1363" y="794" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">Karpenter scales nodes, HPA scales pods —</text>
+<text x="1363" y="810" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">  independent scaling on two address spaces.</text>
+<text x="1363" y="826" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:11px; font-weight:400; fill:#334155;">New hubs stay collision-free by construction.</text>
+<rect x="1345" y="856" width="435" height="214" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.6"/>
+<text x="1363" y="876" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:12.5px; font-weight:800; fill:#0f172a;">DATA FLOW EXAMPLE</text>
+<text x="1363" y="894" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">a) Device → satellite → Ground Station</text>
+<text x="1363" y="910.5" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">b) Ground Station → DX → AWS DX endpoint → TGW</text>
+<text x="1363" y="927.0" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">c) TGW matches 10.200.0.0/16 in Ground RT</text>
+<text x="1363" y="943.5" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">d) TGW forwards into hub VPC attachment</text>
+<text x="1363" y="960.0" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">e) Private subnet receives on TGW-attach ENI</text>
+<text x="1363" y="976.5" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">f) Data-ingress pod (100.64.x.x) parses packet</text>
+<text x="1363" y="993.0" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">g) Core-network pod queries Redis, decides route</text>
+<text x="1363" y="1009.5" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">h) UPF pod forwards to the NLB</text>
+<text x="1363" y="1026.0" text-anchor="start" style="font-family:ui-sans-serif, system-ui; font-size:10.5px; font-weight:400; fill:#334155;">i) NLB → IGW → response to customer</text>
+</svg>
